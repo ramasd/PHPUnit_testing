@@ -26,7 +26,7 @@ class ExampleTest extends TestCase
             'price' => 99.99
         ]);
 
-        
+
 
         $response = $this->get('/');
 
@@ -36,6 +36,8 @@ class ExampleTest extends TestCase
 
         $response->assertDontSee('No products found');
 
-        $response->assertSee($product->name);
+        $view_products = $response->viewData('products');
+
+        $this->assertEquals($product->name, $view_products->first()->name);
     }
 }
