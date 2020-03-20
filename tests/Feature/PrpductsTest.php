@@ -26,7 +26,11 @@ class ExampleTest extends TestCase
             'price' => 99.99
         ]);
 
+        
+
         $response = $this->get('/');
+
+
 
         $response->assertStatus(200);
 
