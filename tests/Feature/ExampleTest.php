@@ -7,6 +7,8 @@ use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * A basic test example.
      *
@@ -16,6 +18,15 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/');
 
+        $response->assertSee('Laravel');
+
         $response->assertStatus(200);
+    }
+
+    public function testCakeTest()
+    {
+        $response = $this->get('/');
+
+        $response->assertSee('CakePHP');
     }
 }
