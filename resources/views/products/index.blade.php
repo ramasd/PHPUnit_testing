@@ -14,6 +14,11 @@
                             </div>
                         @endif
 
+                        @if (auth()->user()->is_admin)
+                            <a href="{{ route('products.create') }}" class="btn btn-primary">Add new product</a>
+                            <br /><br />
+                        @endif
+
                         <table class="table">
                             <tr>
                                 <th>Product name</th>

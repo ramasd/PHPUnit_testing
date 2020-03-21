@@ -13,7 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'ProductController@index')->middleware('auth');
+Route::get('/', function() {
+    return redirect()->route('products.index');
+});
+
+Route::middleware('auth')->group(function() {
+    Route::get('products', 'ProductController@index')->name('products.index');
+
+    Route::middleware('is_admin')->group(function() {
+        Route::get('products/create', 'ProductController@create')->name('products.create');
+        Route::post('products', 'ProductController@store')->name('products.store');
+    });
+
+});
+
 
 Auth::routes();
 

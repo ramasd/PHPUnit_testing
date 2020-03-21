@@ -37,8 +37,8 @@ class AuthTest extends TestCase
             'password' => bcrypt('password123'),
         ]);
 
-        // Go to homepage "/"
-        $response = $this->actingAs($user)->get('/');
+        // Go to "/products"
+        $response = $this->actingAs($user)->get('/products');
 
         // Assert status 200
         $response->assertStatus(200);
@@ -46,13 +46,14 @@ class AuthTest extends TestCase
 
     public function test_unauthenticated_user_cannot_access_products_table()
     {
-        // Go to homepage "/"
-        $response = $this->get('/');
+        // Go to "/products"
+        $response = $this->get('/products');
 
         // Assert status not 200
         $response->assertStatus(302);
-        
+
         // Assert redirect to "/login"
         $response->assertRedirect('/login');
     }
+
 }
