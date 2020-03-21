@@ -5,14 +5,21 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Product;
+use App\User;
 
-class ExampleTest extends TestCase
+class ProductsTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_homepage_contains_empty_products_table()
     {
-        $response = $this->get('/');
+        // Create a use
+        $user = factory(User::class)->create([
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('password123'),
+        ]);
+
+        $response = $this->actingAs($user)->get('/');
 
         $response->assertStatus(200);
 
@@ -21,16 +28,19 @@ class ExampleTest extends TestCase
 
     public function test_homepage_contains_non_empty_products_table()
     {
+        // Create a product
         $product = Product::create([
             'name' => 'Test Product',
             'price' => 99.99
         ]);
 
+        // Create a use
+        $user = factory(User::class)->create([
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('password123'),
+        ]);
 
-
-        $response = $this->get('/');
-
-
+        $response = $this->actingAs($user)->get('/');
 
         $response->assertStatus(200);
 
@@ -51,7 +61,13 @@ class ExampleTest extends TestCase
         //     ]);
         // }
 
-        $response = $this->get('/');
+        // Create a use
+        $user = factory(User::class)->create([
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('password123'),
+        ]);
+
+        $response = $this->actingAs($user)->get('/');
 
         $response->assertDontSee($products->last()->name);
     }
