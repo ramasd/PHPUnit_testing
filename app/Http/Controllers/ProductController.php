@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -38,12 +39,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = new Product();
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'price' => 'required|regex:/^\d{1,13}(\.\d{1,2})?$/',
+        ]);
 
-        $product->name = $request->name;
-        $product->price = $request->price;
+        Product::create($request->all());
 
-        return $product->save();
+        return redirect()->route('products.index')->with('success', 'Product created successfully.');;
+                // }
     }
 
     /**
@@ -56,7 +60,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
 
-        return $product;
+        return view('products.show')->with('product', $product);
     }
 
     /**
@@ -69,7 +73,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
 
-        return view('products.edit', compact($product));
+        return view('products.edit')->with('product', $product);
     }
 
     /**
@@ -86,7 +90,9 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->price = $request->price;
 
-        return $product->save();
+        $product->save();
+
+        return redirect()->route('products.index');
     }
 
     /**
@@ -99,6 +105,8 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
 
-        return $product->delete();
+        $product->delete();
+
+        return redirect()->route('products.index');
     }
 }

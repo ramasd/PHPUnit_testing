@@ -2,6 +2,16 @@
 
 @section('content')
     <div class="container">
+        
+        @if(Session::has('success'))
+            <div class="alert alert-success">
+                {{ Session::get('success') }}
+                @php
+                    Session::forget('success');
+                @endphp
+            </div>
+        @endif
+
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -20,11 +30,13 @@
                         @endif
 
                         <table class="table">
-                            <tr>
-                                <th>Product name</th>
-                                <th>Price</th>
-                                <th>Price (EUR)</th>
-                            </tr>
+                            @if ($products->count())
+                                <tr>
+                                    <th>Product name</th>
+                                    <th>Price</th>
+                                    <th>Price (EUR)</th>
+                                </tr>
+                            @endif
                             @forelse ($products as $product)
                                 <tr>
                                     <td>{{ $product->name}}</td>
@@ -39,7 +51,7 @@
                         </table>
 
                         {{ $products->links() }}
-                        
+
                     </div>
                 </div>
             </div>
