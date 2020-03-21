@@ -18,11 +18,13 @@
                             <tr>
                                 <th>Product name</th>
                                 <th>Price</th>
+                                <th>Price (EUR)</th>
                             </tr>
                             @forelse ($products as $product)
                                 <tr>
                                     <td>{{ $product->name}}</td>
                                     <td>{{ $product->price}}</td>
+                                    <td>{{ $product->price_eur}}</td>
                                 </tr>
                             @empty
                                 <tr>
