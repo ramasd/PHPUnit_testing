@@ -11,15 +11,20 @@ class ProductsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_homepage_contains_empty_products_table()
+    private $user;
+
+    public function setUp(): void
     {
-        // Create a use
-        $user = factory(User::class)->create([
+        parent::setUp();
+        $this->user = factory(User::class)->create([
             'email' => 'admin@admin.com',
             'password' => bcrypt('password123'),
         ]);
+    }
 
-        $response = $this->actingAs($user)->get('/');
+    public function test_homepage_contains_empty_products_table()
+    {
+        $response = $this->actingAs($this->user)->get('/');
 
         $response->assertStatus(200);
 
@@ -34,13 +39,7 @@ class ProductsTest extends TestCase
             'price' => 99.99
         ]);
 
-        // Create a use
-        $user = factory(User::class)->create([
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('password123'),
-        ]);
-
-        $response = $this->actingAs($user)->get('/');
+        $response = $this->actingAs($this->user)->get('/');
 
         $response->assertStatus(200);
 
@@ -61,13 +60,7 @@ class ProductsTest extends TestCase
         //     ]);
         // }
 
-        // Create a use
-        $user = factory(User::class)->create([
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('password123'),
-        ]);
-
-        $response = $this->actingAs($user)->get('/');
+        $response = $this->actingAs($this->user)->get('/');
 
         $response->assertDontSee($products->last()->name);
     }
