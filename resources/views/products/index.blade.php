@@ -32,6 +32,9 @@
                                 </tr>
                             @endforelse
                         </table>
+
+                        {{ $products->links() }}
+                        
                     </div>
                 </div>
             </div>
