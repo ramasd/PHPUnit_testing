@@ -12,6 +12,16 @@
             </div>
         @endif
 
+        @if(Session::has('deleted'))
+            <div class="alert alert-warning">
+                {{ Session::get('deleted') }}
+                @php
+                    Session::forget('deleted');
+                @endphp
+            </div>
+        @endif
+         
+
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -35,7 +45,9 @@
                                     <th>Product name</th>
                                     <th>Price</th>
                                     <th>Price (EUR)</th>
-                                    <th>Actions</th>
+                                    @if (auth()->user()->is_admin)
+                                        <th>Actions</th>
+                                    @endif
                                 </tr>
                             @endif
                             @forelse ($products as $product)
@@ -43,9 +55,18 @@
                                     <td>{{ $product->name}}</td>
                                     <td>{{ $product->price}}</td>
                                     <td>{{ $product->price_eur}}</td>
-                                    <td>
-                                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">Edit</a>
-                                    </td>
+                                    @if (auth()->user()->is_admin)
+                                        <td>
+                                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-primary">Edit</a>
+
+                                            <form action="{{ route('products.destroy', $product->id) }}"
+                                                method="POST" onsubmit="return confirm('Are You sure?');" style="display:inline-block">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+                                            </form>
+                                        </td>
+                                    @endif
                                 </tr>
                             @empty
                                 <tr>

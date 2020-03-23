@@ -85,7 +85,7 @@ class ProductController extends Controller
     {
         $product->update($request->all());
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
     /**
@@ -94,12 +94,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        $product = Product::find($id);
-
         $product->delete();
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('deleted', 'Product deleted successfully.');
     }
 }
