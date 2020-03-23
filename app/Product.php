@@ -7,7 +7,7 @@ use App\Services\CurrencyService;
 
 class Product extends Model
 {
-    protected $fillable = ['name', 'price'];
+    protected $fillable = ['name', 'price', 'photo'];
 
     // ACCESSORS
 

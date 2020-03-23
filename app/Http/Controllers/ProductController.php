@@ -42,10 +42,16 @@ class ProductController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'price' => 'required|regex:/^\d{1,13}(\.\d{1,2})?$/',
+            'price' => 'required|regex:/^\d{1,13}(\.\d{1,2})?$/'
         ]);
 
-        Product::create($request->all());
+        $product = Product::create($request->all());
+
+        if  ($request->hasFile('photo')) {
+            $filename = $request->photo->getClientOriginalName();
+            $request->photo->storeAs('logos', $filename);
+            $product->update(['photo' => $filename]);
+        }
 
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }

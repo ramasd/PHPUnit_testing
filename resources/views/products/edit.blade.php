@@ -14,7 +14,7 @@
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" name="name" value="{{ old('name', $product->name) }}" autofocus>
+                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $product->name) }}" autofocus>
 
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -27,7 +27,7 @@
                             <div class="form-group row">
                                 <label for="price" class="col-md-4 col-form-label text-md-right">{{ __('Price') }}</label>
                                 <div class="col-md-6">
-                                    <input id="price" type="text" class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}" name="price" value="{{ old('price', $product->price) }}">
+                                    <input id="price" type="text" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price', $product->price) }}">
                                     
                                     @error('price')
                                         <span class="invalid-feedback" role="alert">

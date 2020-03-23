@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Product;
 use App\User;
+use Storage;
+use Illuminate\Http\UploadedFile;
 
 class ProductsTest extends TestCase
 {
@@ -177,5 +179,19 @@ class ProductsTest extends TestCase
 
         $response->assertStatus(302);
         $this->assertEquals(0, Product::count());
+    }
+
+    public function test_create_product_file_upload()
+    {
+        $this->create_user(1);
+        Storage::fake('local');
+
+        $response = $this->actingAs($this->user)->post('products', [
+            'name' => 'Product with photo',
+            'price' => 22.22,
+            'photo' => UploadedFile::fake()->image('logo.jpg')
+        ]);
+
+        Storage::disk('local')->assertExists('logos/logo.jpg');
     }
 }
