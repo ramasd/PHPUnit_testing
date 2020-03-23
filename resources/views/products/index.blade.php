@@ -35,6 +35,7 @@
                                     <th>Product name</th>
                                     <th>Price</th>
                                     <th>Price (EUR)</th>
+                                    <th>Actions</th>
                                 </tr>
                             @endif
                             @forelse ($products as $product)
@@ -42,6 +43,9 @@
                                     <td>{{ $product->name}}</td>
                                     <td>{{ $product->price}}</td>
                                     <td>{{ $product->price_eur}}</td>
+                                    <td>
+                                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">Edit</a>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
