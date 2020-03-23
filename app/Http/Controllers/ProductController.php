@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use App\Http\Requests\UpdateProductRequest;
 
 class ProductController extends Controller
 {
@@ -46,8 +47,7 @@ class ProductController extends Controller
 
         Product::create($request->all());
 
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');;
-                // }
+        return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
     /**
@@ -81,14 +81,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        $product = Product::find($id);
-
-        $product->name = $request->name;
-        $product->price = $request->price;
-
-        $product->save();
+        $product->update($request->all());
 
         return redirect()->route('products.index');
     }

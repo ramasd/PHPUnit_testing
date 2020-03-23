@@ -119,6 +119,8 @@ class ProductsTest extends TestCase
 
     public function test_edit_product_form_contains_correct_name_and_price()
     {
+
+        // Create a user
         $this->create_user(1);
 
         // Create a product
@@ -127,8 +129,37 @@ class ProductsTest extends TestCase
         $response = $this->actingAs($this->user)->get('products/'.$product->id.'/edit');
 
         $response->assertStatus(200);
-
         $response->assertSee('value="'.e($product->name).'"', false);
         $response->assertSee('value="'.$product->price.'"', false);
+    }
+
+    public function test_update_product_correct_validation_name_error()
+    {
+        // Create a user
+        $this->create_user(1);
+
+        // Create a product
+        $product = factory(Product::class)->create();
+
+        $response = $this->actingAs($this->user)->put('products/'.$product->id, ['name' => 'Test', 'price' => 99.99]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors(['name']);
+    }
+
+    public function test_update_product_json_correct_validation_name_error()
+    {
+        // Create a user
+        $this->create_user(1);
+
+        // Create a product
+        $product = factory(Product::class)->create();
+
+        $response = $this->actingAs($this->user)
+            ->put('products/'.$product->id,
+                ['name' => 'Test', 'price' => 99.99],
+                ['Accept' => 'Application/json']);
+
+        $response->assertStatus(422);
     }
 }
