@@ -165,6 +165,9 @@ class ProductsTest extends TestCase
         $response->assertStatus(422);
     }
 
+    /**
+     * @group approved
+     */
     public function test_delete_product_no_longer_exists_in_database()
     {
         // Create a user
@@ -181,6 +184,9 @@ class ProductsTest extends TestCase
         $this->assertEquals(0, Product::count());
     }
 
+    /**
+     * @group approved
+     */
     public function test_create_product_file_upload()
     {
         $this->create_user(1);

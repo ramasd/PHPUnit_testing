@@ -1,0 +1,14 @@
+run all tests			---->	$ ./vendor/bin/phpunit
+filtering which test to run	---->	$ ./vendor/bin/phpunit --filter product
+
+We can group the methods. Above method write
+
+	/**
+	* @group group_name
+	*/
+	public function test_...(){}
+
+
+run all tests in the group	---->	$ ./vendor/bin/phpunit --group group_name
+runs all except group tests	---->	$ ./vendor/bin/phpunit --exclude-group group_name
+stops at the first error	---->	$ ./vendor/bin/phpunit --group group_name --stop-on-failure
